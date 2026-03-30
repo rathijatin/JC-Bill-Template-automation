@@ -1,0 +1,499 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 36 33% 98%;
+    --foreground: 221 45% 12%;
+    --border: 218 25% 85%;
+    --input: 216 30% 87%;
+    --ring: 15 82% 60%;
+    --radius: 0.75rem;
+  }
+  .dark {
+    --background: 225 39% 9%;
+    --foreground: 210 35% 94%;
+    --border: 218 26% 24%;
+    --input: 218 24% 20%;
+    --ring: 14 75% 64%;
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    margin: 0;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    text-rendering: geometricPrecision;
+  }
+}
+
+.font-display {
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 15% -10%, rgba(244, 114, 29, 0.18), transparent 35%),
+    radial-gradient(circle at 85% -8%, rgba(14, 165, 233, 0.14), transparent 35%),
+    linear-gradient(180deg, #fefcf8 0%, #f8fafc 58%, #f1f5f9 100%);
+}
+
+.dark .app-shell {
+  background:
+    radial-gradient(circle at 15% -10%, rgba(251, 146, 60, 0.14), transparent 35%),
+    radial-gradient(circle at 85% -8%, rgba(56, 189, 248, 0.1), transparent 35%),
+    linear-gradient(180deg, #090d18 0%, #0f172a 52%, #020617 100%);
+}
+
+.app-atmosphere {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(transparent 95%, rgba(148, 163, 184, 0.1) 95%),
+    linear-gradient(90deg, transparent 95%, rgba(148, 163, 184, 0.08) 95%);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 78%);
+}
+
+.dark .app-atmosphere {
+  background-image:
+    linear-gradient(transparent 95%, rgba(100, 116, 139, 0.13) 95%),
+    linear-gradient(90deg, transparent 95%, rgba(100, 116, 139, 0.1) 95%);
+}
+
+.pdf-capture-root {
+  background: #fff;
+  color: #111;
+}
+
+/* Updated invoice style tuned for high-fidelity light-mode print preview */
+.invoice-wrapper {
+  background: white;
+  color: #111;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.invoice-wrapper * {
+  box-sizing: border-box;
+}
+
+.invoice-wrapper .page {
+  width: 780px;
+  margin: 0 auto;
+  border: 1.5px solid #111;
+  background: #fff;
+}
+
+.invoice-wrapper .header {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1.5px solid #111;
+}
+
+.invoice-wrapper .header-left {
+  padding: 8px 10px;
+  width: 160px;
+  border-right: 1.5px solid #111;
+  font-size: 10.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}
+
+.invoice-wrapper .header-left .gstin {
+  font-weight: bold;
+  font-size: 10.5px;
+  color: #111;
+}
+
+.invoice-wrapper .logo-circle {
+  margin-top: 2px;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invoice-wrapper .logo-circle svg {
+  width: 72px;
+  height: 72px;
+}
+
+.invoice-wrapper .header-center {
+  flex: 1;
+  text-align: center;
+  padding: 10px 10px 8px;
+  border-right: 1.5px solid #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.invoice-wrapper .header-center .brand {
+  font-family: "Great Vibes", cursive;
+  font-size: 52px;
+  line-height: 1.05;
+  color: #cc1f1f;
+  letter-spacing: 1px;
+}
+
+.invoice-wrapper .header-center .mfr {
+  font-size: 10px;
+  margin-top: 1px;
+  color: #111;
+}
+
+.invoice-wrapper .header-center .gifts {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 1px;
+  color: #111;
+}
+
+.invoice-wrapper .header-right {
+  width: 210px;
+  padding: 8px 10px;
+  font-size: 10.5px;
+  line-height: 1.75;
+  color: #111;
+}
+
+.invoice-wrapper .title-row {
+  display: flex;
+  border-bottom: 1.5px solid #111;
+}
+
+.invoice-wrapper .title-main {
+  flex: 1;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 7px;
+  padding: 6px;
+  border-right: 1.5px solid #111;
+  color: #111;
+}
+
+.invoice-wrapper .title-copies {
+  width: 210px;
+  font-size: 10px;
+  color: #111;
+}
+
+.invoice-wrapper .title-copies div {
+  padding: 3px 8px;
+  border-bottom: 1px solid #111;
+}
+
+.invoice-wrapper .title-copies div:last-child {
+  border-bottom: none;
+}
+
+.invoice-wrapper .meta-row {
+  display: flex;
+  border-bottom: 1.5px solid #111;
+}
+
+.invoice-wrapper .meta-left {
+  flex: 1;
+  padding: 5px 10px;
+  border-right: 1.5px solid #111;
+  font-size: 11px;
+  line-height: 2.05;
+}
+
+.invoice-wrapper .meta-right {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 11px;
+  line-height: 2.05;
+}
+
+.invoice-wrapper .meta-line {
+  display: flex;
+  align-items: center;
+}
+
+.invoice-wrapper .meta-label {
+  min-width: 115px;
+}
+
+.invoice-wrapper .inv-no {
+  font-size: 26px;
+  font-weight: bold;
+  color: #cc1f1f;
+  line-height: 1;
+  margin-left: 2px;
+}
+
+.invoice-wrapper .state-code-box {
+  display: inline-block;
+  border: 1.5px solid #111;
+  padding: 0 8px;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.invoice-wrapper .party-row {
+  display: flex;
+  border-bottom: 1.5px solid #111;
+}
+
+.invoice-wrapper .party-box {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.invoice-wrapper .party-box:first-child {
+  border-right: 1.5px solid #111;
+}
+
+.invoice-wrapper .party-title {
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 3px;
+  color: #111;
+}
+
+.invoice-wrapper .dotted-line {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 2px;
+  min-height: 18px;
+}
+
+.invoice-wrapper .field-label {
+  min-width: 55px;
+  white-space: nowrap;
+}
+
+.invoice-wrapper .dot-underline {
+  flex: 1;
+  border-bottom: 1px dotted #888;
+  min-height: 14px;
+}
+
+.invoice-wrapper .gstin-row {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+}
+
+.invoice-wrapper .gstin-boxes {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.invoice-wrapper .gstin-cell {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.invoice-wrapper .state-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.invoice-wrapper table.items {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+
+.invoice-wrapper table.items th,
+.invoice-wrapper table.items td {
+  border: 1px solid #111;
+  text-align: center;
+  padding: 3px 3px;
+  vertical-align: middle;
+}
+
+.invoice-wrapper table.items th {
+  font-size: 9.5px;
+  background: #e0e0e0;
+  font-weight: bold;
+  color: #111;
+}
+
+.invoice-wrapper table.items td.left {
+  text-align: left;
+  padding-left: 5px;
+}
+
+.invoice-wrapper table.items td.empty {
+  height: 22px;
+}
+
+.invoice-wrapper table.items tr.total-row td {
+  font-weight: bold;
+  background: #f2f2f2;
+}
+
+.invoice-wrapper .footer {
+  display: flex;
+  border-top: 1.5px solid #111;
+}
+
+.invoice-wrapper .footer-left {
+  flex: 1;
+  padding: 7px 10px;
+  border-right: 1.5px solid #111;
+  font-size: 11px;
+  line-height: 1.85;
+}
+
+.invoice-wrapper .footer-right {
+  width: 270px;
+  font-size: 11px;
+}
+
+.invoice-wrapper .words-label {
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.invoice-wrapper .words-line {
+  border-bottom: 1px solid #111;
+  min-height: 20px;
+  margin-bottom: 6px;
+}
+
+.invoice-wrapper .bank-label-col {
+  min-width: 148px;
+  display: inline-block;
+}
+
+.invoice-wrapper table.summary {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.invoice-wrapper table.summary td {
+  border: 1px solid #111;
+  padding: 3px 6px;
+}
+
+.invoice-wrapper table.summary td:last-child {
+  min-width: 80px;
+  text-align: right;
+}
+
+.invoice-wrapper .cert-box {
+  margin: 5px;
+  border: 1px solid #111;
+  padding: 4px 6px;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.invoice-wrapper .sign-row {
+  display: flex;
+  border-top: 1.5px solid #111;
+}
+
+.invoice-wrapper .sign-left {
+  flex: 1;
+  padding: 8px 10px;
+  border-right: 1.5px solid #111;
+  font-size: 10px;
+}
+
+.invoice-wrapper .sign-right {
+  width: 270px;
+  padding: 8px 10px;
+  text-align: right;
+  font-size: 11px;
+}
+
+.invoice-wrapper .sign-for {
+  font-size: 11px;
+}
+
+.invoice-wrapper .sign-brand {
+  font-family: "Great Vibes", cursive;
+  font-size: 38px;
+  color: #cc1f1f;
+  margin: 2px 0 30px;
+  line-height: 1.2;
+}
+
+.invoice-wrapper .common-seal {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.invoice-wrapper .sign-line {
+  border-top: 1px solid #111;
+  display: inline-block;
+  width: 165px;
+  text-align: center;
+  padding-top: 3px;
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+.invoice-wrapper .footer-note {
+  border-top: 1.5px solid #111;
+  font-size: 10px;
+  padding: 3px 10px;
+  text-align: right;
+}
+@media print {
+  body {
+    padding: 0;
+    background: white;
+  }
+
+  .app-shell {
+    background: white !important;
+  }
+
+  .app-atmosphere {
+    display: none;
+  }
+
+  .invoice-wrapper .page {
+    border: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+

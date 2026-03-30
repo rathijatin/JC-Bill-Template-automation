@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Invoice #283 - Jaipur Craft</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 12px; background: #fff; padding: 20px; }
+
+  /* ── COLOR PALETTE matched to PDF ──
+     Brand red  : #cc1f1f  (logo circle, brand name script, inv# bold, sign)
+     Border     : #111111
+     Table head : #e0e0e0
+     Body text  : #111111
+  */
+
+  .page { width: 780px; margin: 0 auto; border: 1.5px solid #111; }
+
+  /* ══ HEADER ══ */
+  .header { display: flex; align-items: stretch; border-bottom: 1.5px solid #111; }
+
+  .header-left {
+    padding: 8px 10px;
+    width: 160px;
+    border-right: 1.5px solid #111;
+    font-size: 10.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+  }
+  .header-left .gstin { font-weight: bold; font-size: 10.5px; color: #111; }
+
+  .header-center {
+    flex: 1;
+    text-align: center;
+    padding: 10px 10px 8px;
+    border-right: 1.5px solid #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Brand name: Great Vibes ≈ Edwardian Script ITC, red matching PDF logo */
+  .header-center .brand {
+    font-family: 'Great Vibes', cursive;
+    font-size: 52px;
+    line-height: 1.05;
+    color: #cc1f1f;
+    letter-spacing: 1px;
+  }
+  .header-center .mfr  { font-size: 10px; margin-top: 1px; color: #111; }
+  .header-center .gifts { font-size: 11px; font-weight: bold; letter-spacing: 2px; margin-top: 1px; color: #111; }
+
+  .header-right {
+    width: 210px;
+    padding: 8px 10px;
+    font-size: 10.5px;
+    line-height: 1.75;
+    color: #111;
+  }
+
+  /* ══ TITLE ROW ══ */
+  .title-row { display: flex; border-bottom: 1.5px solid #111; }
+  .title-main {
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 7px;
+    padding: 6px;
+    border-right: 1.5px solid #111;
+    color: #111;
+  }
+  .title-copies { width: 210px; font-size: 10px; color: #111; }
+  .title-copies div { padding: 3px 8px; border-bottom: 1px solid #111; }
+  .title-copies div:last-child { border-bottom: none; }
+
+  /* ══ META ROW ══ */
+  .meta-row  { display: flex; border-bottom: 1.5px solid #111; }
+  .meta-left { flex: 1; padding: 5px 10px; border-right: 1.5px solid #111; font-size: 11px; line-height: 2.05; }
+  .meta-right{ flex: 1; padding: 5px 10px; font-size: 11px; line-height: 2.05; }
+  .meta-line { display: flex; align-items: center; }
+  .meta-label{ min-width: 115px; }
+
+  /* Bold red invoice number – exact match to PDF */
+  .inv-no {
+    font-size: 26px;
+    font-weight: bold;
+    color: #cc1f1f;
+    line-height: 1;
+    margin-left: 2px;
+  }
+  .state-code-box {
+    display: inline-block;
+    border: 1.5px solid #111;
+    padding: 0 8px;
+    margin-left: 6px;
+    font-weight: bold;
+  }
+
+  /* ══ PARTY DETAILS ══ */
+  .party-row { display: flex; border-bottom: 1.5px solid #111; }
+  .party-box { flex: 1; padding: 5px 10px; font-size: 11px; line-height: 1.9; }
+  .party-box:first-child { border-right: 1.5px solid #111; }
+  .party-title { font-weight: bold; font-size: 11px; margin-bottom: 3px; color: #111; }
+  .dotted-line { display: flex; align-items: flex-end; margin-bottom: 2px; min-height: 18px; }
+  .field-label { min-width: 55px; white-space: nowrap; }
+  .dot-underline { flex: 1; border-bottom: 1px dotted #888; min-height: 14px; }
+  .gstin-row { display: flex; align-items: center; margin-top: 3px; }
+  .gstin-boxes { display: flex; gap: 2px; flex-wrap: wrap; }
+  .gstin-cell { width: 16px; height: 16px; border: 1px solid #111; display: inline-block; flex-shrink: 0; }
+  .state-row  { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+
+  /* ══ ITEMS TABLE ══ */
+  table.items { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  table.items th,
+  table.items td { border: 1px solid #111; text-align: center; padding: 3px 3px; vertical-align: middle; }
+  table.items th { font-size: 9.5px; background: #e0e0e0; font-weight: bold; color: #111; }
+  table.items td.left  { text-align: left; padding-left: 5px; }
+  table.items td.empty { height: 22px; }
+  table.items tr.total-row td { font-weight: bold; background: #f2f2f2; }
+
+  /* ══ FOOTER ══ */
+  .footer { display: flex; border-top: 1.5px solid #111; }
+  .footer-left  { flex: 1; padding: 7px 10px; border-right: 1.5px solid #111; font-size: 11px; line-height: 1.85; }
+  .footer-right { width: 270px; font-size: 11px; }
+  .words-label  { font-weight: bold; font-size: 11px; margin-bottom: 4px; }
+  .words-line   { border-bottom: 1px solid #111; min-height: 20px; margin-bottom: 6px; }
+  .bank-label-col { min-width: 148px; display: inline-block; }
+
+  table.summary { width: 100%; border-collapse: collapse; font-size: 11px; }
+  table.summary td { border: 1px solid #111; padding: 3px 6px; }
+  table.summary td:last-child { min-width: 80px; text-align: right; }
+
+  .cert-box {
+    margin: 5px;
+    border: 1px solid #111;
+    padding: 4px 6px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  /* ══ SIGN SECTION ══ */
+  .sign-row   { display: flex; border-top: 1.5px solid #111; }
+  .sign-left  { flex: 1; padding: 8px 10px; border-right: 1.5px solid #111; font-size: 10px; }
+  .sign-right { width: 270px; padding: 8px 10px; text-align: right; font-size: 11px; }
+  .sign-for   { font-size: 11px; }
+  /* Signature script also in brand red */
+  .sign-brand {
+    font-family: 'Great Vibes', cursive;
+    font-size: 38px;
+    color: #cc1f1f;
+    margin: 2px 0 30px;
+    line-height: 1.2;
+  }
+  .common-seal { font-size: 11px; margin-top: 2px; }
+  .sign-line {
+    border-top: 1px solid #111;
+    display: inline-block;
+    width: 165px;
+    text-align: center;
+    padding-top: 3px;
+    font-size: 10px;
+    margin-top: 10px;
+  }
+
+  .footer-note { border-top: 1.5px solid #111; font-size: 10px; padding: 3px 10px; text-align: right; }
+
+  @media print { body { padding: 0; } .page { border: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="header-left">
+      <div class="gstin">GSTIN : 08AJJPR2885G1ZP</div>
+      <!-- Red circular badge logo matching the PDF emblem -->
+      <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="36" cy="36" r="34" fill="none" stroke="#cc1f1f" stroke-width="2.5"/>
+        <circle cx="36" cy="36" r="29" fill="none" stroke="#cc1f1f" stroke-width="1" stroke-dasharray="3,2.5"/>
+        <!-- Monogram -->
+        <text x="36" y="30" text-anchor="middle" font-family="Georgia,serif" font-style="italic"
+              font-size="15" fill="#cc1f1f" font-weight="bold">JC</text>
+        <!-- Top curved text -->
+        <path id="top" d="M 9,36 A 27,27 0 0,1 63,36" fill="none"/>
+        <text font-family="Arial" font-size="7" fill="#cc1f1f" font-weight="bold" letter-spacing="1.2">
+          <textPath href="#top" startOffset="6%">JAIPUR  CRAFT</textPath>
+        </text>
+        <!-- Bottom curved text -->
+        <path id="bot" d="M 14,42 A 24,24 0 0,0 58,42" fill="none"/>
+        <text font-family="Arial" font-size="5.8" fill="#cc1f1f" letter-spacing="0.4">
+          <textPath href="#bot" startOffset="8%">HANDCRAFTED GIFTS</textPath>
+        </text>
+        <!-- Decorative dots -->
+        <circle cx="36" cy="55" r="1.8" fill="#cc1f1f"/>
+        <circle cx="29" cy="53.5" r="1.2" fill="#cc1f1f"/>
+        <circle cx="43" cy="53.5" r="1.2" fill="#cc1f1f"/>
+      </svg>
+    </div>
+
+    <div class="header-center">
+      <div class="brand">Jaipur Craft</div>
+      <div class="mfr">Manufacturers &amp; Exporters of</div>
+      <div class="gifts">INDIAN HANDCRAFTED GIFTS</div>
+    </div>
+
+    <div class="header-right">
+      28, Bajrang Colony,<br>
+      Near Shubham Hospital, Jhotwara,<br>
+      Jaipur-302012 (Raj.) INDIA<br>
+      Mob. : +91-98290-23084<br>
+      Web. : www.jaipurcraft.com<br>
+      Email : info@jaipurcraft.com
+    </div>
+  </div>
+
+  <!-- ══ TITLE ROW ══ -->
+  <div class="title-row">
+    <div class="title-main">INVOICE</div>
+    <div class="title-copies">
+      <div>Original for Receipient</div>
+      <div>Duplicate for Supplier/ Transporter</div>
+      <div>Triplicate for Supplier</div>
+    </div>
+  </div>
+
+  <!-- ══ META ══ -->
+  <div class="meta-row">
+    <div class="meta-left">
+      <div class="meta-line"><span class="meta-label">Reverse Charge</span><span>&nbsp;:&nbsp;</span></div>
+      <div class="meta-line"><span class="meta-label">Invoice No.</span><span>&nbsp;:&nbsp;</span><span class="inv-no">283</span></div>
+      <div class="meta-line"><span class="meta-label">Invoice Date</span><span>&nbsp;:&nbsp;</span></div>
+      <div class="meta-line">
+        <span class="meta-label">State</span>
+        <span>&nbsp;:&nbsp;<strong>RAJASTHAN</strong></span>
+        &nbsp;&nbsp;
+        <span>State Code</span><span class="state-code-box">08</span>
+      </div>
+    </div>
+    <div class="meta-right">
+      <div class="meta-line"><span class="meta-label">Transportation Mode</span><span>&nbsp;:&nbsp;</span></div>
+      <div class="meta-line"><span class="meta-label">Vehicle Number</span><span>&nbsp;:&nbsp;</span></div>
+      <div class="meta-line"><span class="meta-label">Date of Supply</span><span>&nbsp;:&nbsp;</span></div>
+      <div class="meta-line"><span class="meta-label">Place of Supply</span><span>&nbsp;:&nbsp;</span></div>
+    </div>
+  </div>
+
+  <!-- ══ PARTY DETAILS ══ -->
+  <div class="party-row">
+    <div class="party-box">
+      <div class="party-title">Details of Receiver | Billed to :</div>
+      <div class="dotted-line"><span class="field-label">Name</span><span class="dot-underline"></span></div>
+      <div class="dotted-line"><span class="field-label">Address</span><span class="dot-underline"></span></div>
+      <div class="dotted-line"><span class="dot-underline"></span></div>
+      <div class="gstin-row">
+        <span class="field-label">GSTIN</span>
+        <div class="gstin-boxes">
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+        </div>
+      </div>
+      <div class="state-row">
+        <span>State</span>
+        <span style="flex:1; border-bottom:1px dotted #aaa; min-height:16px; margin:0 4px;"></span>
+        <span style="white-space:nowrap;">State Code</span>
+        <span class="gstin-cell" style="margin-left:4px;"></span><span class="gstin-cell"></span>
+      </div>
+    </div>
+    <div class="party-box">
+      <div class="party-title">Details of Consignee | Shipped to :</div>
+      <div class="dotted-line"><span class="field-label">Name</span><span class="dot-underline"></span></div>
+      <div class="dotted-line"><span class="field-label">Address</span><span class="dot-underline"></span></div>
+      <div class="dotted-line"><span class="dot-underline"></span></div>
+      <div class="gstin-row">
+        <span class="field-label">GSTIN</span>
+        <div class="gstin-boxes">
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+          <span class="gstin-cell"></span><span class="gstin-cell"></span><span class="gstin-cell"></span>
+        </div>
+      </div>
+      <div class="state-row">
+        <span>State</span>
+        <span style="flex:1; border-bottom:1px dotted #aaa; min-height:16px; margin:0 4px;"></span>
+        <span style="white-space:nowrap;">State Code</span>
+        <span class="gstin-cell" style="margin-left:4px;"></span><span class="gstin-cell"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ITEMS TABLE ══ -->
+  <table class="items">
+    <thead>
+      <tr>
+        <th rowspan="2" style="width:28px;">Sr.<br>No.</th>
+        <th rowspan="2" class="left" style="min-width:110px;">Item Detail</th>
+        <th rowspan="2" style="width:45px;">HSN</th>
+        <th rowspan="2" style="width:35px;">Qty.</th>
+        <th rowspan="2" style="width:45px;">Rate</th>
+        <th rowspan="2" style="width:52px;">Amount</th>
+        <th rowspan="2" style="width:50px;">Less :<br>Discount</th>
+        <th rowspan="2" style="width:52px;">Taxable<br>Value</th>
+        <th colspan="2">CGST</th>
+        <th colspan="2">SGST</th>
+        <th colspan="2">IGST</th>
+        <th rowspan="2" style="width:48px;">Total</th>
+      </tr>
+      <tr>
+        <th style="width:30px;">Rate</th><th style="width:46px;">Amount</th>
+        <th style="width:30px;">Rate</th><th style="width:46px;">Amount</th>
+        <th style="width:30px;">Rate</th><th style="width:46px;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="empty"></td><td class="left empty"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr class="total-row">
+        <td colspan="3" style="text-align:right; padding-right:6px;">Total</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="words-label">Total Invoice Amount in Words :</div>
+      <div class="words-line">&nbsp;</div>
+      <br>
+      <div>
+        <strong>Bank Details :</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>BANK OF INDIA</strong>
+      </div>
+      <div><span class="bank-label-col">Bank Account Number</span> : 661920110000393</div>
+      <div><span class="bank-label-col">Bank Branch IFSC</span> : BKID0006619</div>
+      <div><span class="bank-label-col">Bank Branch Add.</span> : Jhotwara I.A.Br. - Jaipur</div>
+      <br>
+      <div>Terms &amp; Conditions :</div>
+    </div>
+    <div class="footer-right">
+      <table class="summary">
+        <tr><td>Total Amount Before Tax</td><td>:</td><td>&nbsp;</td></tr>
+        <tr><td>Add : CGST</td><td>:</td><td>&nbsp;</td></tr>
+        <tr><td>Add : SGST</td><td>:</td><td>&nbsp;</td></tr>
+        <tr><td>Add : IGST</td><td>:</td><td>&nbsp;</td></tr>
+        <tr><td>Tax Amount : GST</td><td>:</td><td>&nbsp;</td></tr>
+        <tr><td><strong>Total Amount After Tax</strong></td><td>:</td><td>&nbsp;</td></tr>
+      </table>
+      <div class="cert-box">
+        GST Payable on Reverse Charge :&nbsp;&nbsp;&nbsp;<br>
+        Certified that the particulars given above are true and correct.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SIGN ROW ══ -->
+  <div class="sign-row">
+    <div class="sign-left">&nbsp;</div>
+    <div class="sign-right">
+      <div class="sign-for">For</div>
+      <div class="sign-brand">Jaipur Craft</div>
+      <div class="common-seal">(Common Seal)</div>
+      <div style="margin-top:8px;">
+        <span class="sign-line">Authorised Signatory</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">(E &amp; O.E.)</div>
+
+</div>
+</body>
+</html>
