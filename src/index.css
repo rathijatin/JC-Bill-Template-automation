@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @layer base {
@@ -24,6 +24,9 @@
   body,
   #root {
     min-height: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   * {
@@ -31,11 +34,17 @@
   }
 
   body {
-    margin: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     font-family: "Manrope", "Segoe UI", sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     text-rendering: geometricPrecision;
+  }
+
+  body > #root {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 }
 
@@ -46,6 +55,8 @@
 .app-shell {
   position: relative;
   isolation: isolate;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
   background:
     radial-gradient(circle at 15% -10%, rgba(244, 114, 29, 0.18), transparent 35%),
     radial-gradient(circle at 85% -8%, rgba(14, 165, 233, 0.14), transparent 35%),

@@ -3,7 +3,8 @@ import generatePDF from "react-to-pdf";
 import type { InvoiceData } from "./types";
 import InvoiceForm from "./components/InvoiceForm";
 import InvoicePreview from "./components/InvoicePreview";
-import { Sun, Moon, Printer, Download, FileText, Package } from "lucide-react";
+import SignInPage from "./components/SignInPage";
+import { Sun, Moon, Printer, Download, FileText, Package, LogOut } from "lucide-react";
 
 
 const initialData: InvoiceData = {
@@ -21,14 +22,28 @@ const initialData: InvoiceData = {
   items: [{ id: "1", detail: "", hsn: "", qty: 1, rate: 0, discount: 0, cgstRate: 0, sgstRate: 0, igstRate: 0 }]
 };
 
+const AUTH_USER_ID = "JC_5047";
+const AUTH_PASSWORD = "JC_Password";
+const AUTH_STORAGE_KEY = "jc-billing-authenticated";
+
 function App() {
   const [data, setData] = useState<InvoiceData>(initialData);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem(AUTH_STORAGE_KEY) === "true";
+  });
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
+
+  useEffect(() => {
+    const targetPath = isAuthenticated ? "/" : "/signin";
+    if (window.location.pathname !== targetPath) {
+      window.history.replaceState(null, "", targetPath);
+    }
+  }, [isAuthenticated]);
 
   const totalAfterTax = useMemo(() => {
     return data.items.reduce((sum, item) => {
@@ -55,11 +70,31 @@ function App() {
     }
   };
 
+  const handleSignIn = (userId: string, password: string) => {
+    const isValid = userId === AUTH_USER_ID && password === AUTH_PASSWORD;
+
+    if (isValid) {
+      localStorage.setItem(AUTH_STORAGE_KEY, "true");
+      setIsAuthenticated(true);
+    }
+
+    return isValid;
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setIsAuthenticated(false);
+  };
+
+  if (!isAuthenticated) {
+    return <SignInPage onSignIn={handleSignIn} />;
+  }
+
   return (
     <div className="min-h-screen app-shell">
       <div className="app-atmosphere" />
 
-      <header className="no-print sticky top-0 z-20 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-950/70">
+      <header className="no-print fixed inset-x-0 top-0 z-30 mt-0 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-950/70">
         <div className="mx-auto flex w-full max-w-[1700px] flex-wrap items-center justify-between gap-4 px-4 py-4 lg:px-8">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Jaipur Craft</p>
@@ -73,6 +108,12 @@ function App() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleSignOut}
+              className="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300 dark:hover:bg-rose-900/50"
+            >
+              <LogOut size={16} /> Sign Out
+            </button>
             <button
               onClick={toggleTheme}
               className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
@@ -96,7 +137,7 @@ function App() {
         </div>
       </header>
 
-      <main className="relative mx-auto grid w-full max-w-[1700px] grid-cols-1 gap-6 px-4 py-5 lg:grid-cols-12 lg:px-8 print:block print:max-w-none print:p-0">
+      <main className="relative mx-auto grid w-full max-w-[1700px] grid-cols-1 gap-6 px-4 pb-5 pt-28 lg:grid-cols-12 lg:px-8 print:block print:max-w-none print:p-0 print:pt-0">
         <section className="no-print lg:col-span-5">
           <div className="max-h-[calc(100vh-140px)] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
             <InvoiceForm data={data} setData={setData} />
