@@ -1,5 +1,6 @@
 import type { InvoiceData } from "../types";
 import { numberToWords } from "../utils";
+import logo from "../assets/logo.webp";
 
 interface Props {
   data: InvoiceData;
@@ -86,37 +87,7 @@ export default function InvoicePreview({ data }: Props) {
           <div className="header-left">
             <div className="gstin">GSTIN : 08AJJPR2885G1ZP</div>
             <div className="logo-circle">
-              <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="36" cy="36" r="34" fill="none" stroke="#cc1f1f" strokeWidth="2.5" />
-                <circle cx="36" cy="36" r="29" fill="none" stroke="#cc1f1f" strokeWidth="1" strokeDasharray="3,2.5" />
-                <text
-                  x="36"
-                  y="30"
-                  textAnchor="middle"
-                  fontFamily="Georgia, serif"
-                  fontStyle="italic"
-                  fontSize="15"
-                  fill="#cc1f1f"
-                  fontWeight="bold"
-                >
-                  JC
-                </text>
-                <path id="logoTopArc" d="M 9,36 A 27,27 0 0,1 63,36" fill="none" />
-                <text fontFamily="Arial" fontSize="7" fill="#cc1f1f" fontWeight="bold" letterSpacing="1.2">
-                  <textPath href="#logoTopArc" startOffset="6%">
-                    JAIPUR CRAFT
-                  </textPath>
-                </text>
-                <path id="logoBottomArc" d="M 14,42 A 24,24 0 0,0 58,42" fill="none" />
-                <text fontFamily="Arial" fontSize="5.8" fill="#cc1f1f" letterSpacing="0.4">
-                  <textPath href="#logoBottomArc" startOffset="8%">
-                    HANDCRAFTED GIFTS
-                  </textPath>
-                </text>
-                <circle cx="36" cy="55" r="1.8" fill="#cc1f1f" />
-                <circle cx="29" cy="53.5" r="1.2" fill="#cc1f1f" />
-                <circle cx="43" cy="53.5" r="1.2" fill="#cc1f1f" />
-              </svg>
+              <img src={logo} alt="logo" style={{ width: '72px', height: '72px' }} />
             </div>
           </div>
           <div className="header-center">
